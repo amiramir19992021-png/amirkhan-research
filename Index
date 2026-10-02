@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پژوهشیار - امیرخوان</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: Tahoma, sans-serif;
+    background: #f0f4f8;
+    padding: 16px;
+    direction: rtl;
+    color: #1e293b;
+  }
+  .container { max-width: 700px; margin: 0 auto; }
+  .header {
+    background: #ffffff;
+    padding: 16px 20px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    border-bottom: 3px solid #7c3aed;
+  }
+  .header h1 { font-size: 24px; color: #7c3aed; }
+  .header p { font-size: 13px; color: #64748b; margin-top: 6px; }
+  .nav-links {
+    margin-top:10px; display:flex; gap:8px; justify-content:center; flex-wrap:wrap;
+  }
+  .nav-links a {
+    font-size:12px; color:#7c3aed; text-decoration:none;
+    background:#f5f3ff; padding:5px 12px; border-radius:20px;
+  }
+
+  .search-card {
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+  }
+  .search-row { display:flex; gap:8px; }
+  #searchInput {
+    flex:1;
+    border:1px solid #e2e8f0;
+    border-radius: 24px;
+    padding: 12px 18px;
+    font-size:14px;
+    font-family:Tahoma, sans-serif;
+    background:#f8fafc;
+    color:#0f172a;
+  }
+  #searchInput:focus { outline:none; border-color:#7c3aed; }
+  #searchBtn {
+    background:#7c3aed;
+    color:#fff;
+    border:none;
+    border-radius:24px;
+    padding: 0 22px;
+    font-size:14px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  #searchBtn:hover { background:#6d28d9; }
+  #searchBtn:disabled { opacity:.5; cursor:not-allowed; }
+  .hint { font-size:11px; color:#94a3b8; margin-top:8px; }
+
+  .status {
+    text-align:center;
+    color:#64748b;
+    padding: 24px 0;
+    font-size:14px;
+    display:none;
+  }
+  .status.show { display:block; }
+
+  .results { display:flex; flex-direction:column; gap:10px; }
+
+  .paper-card {
+    background:#ffffff;
+    border-radius:14px;
+    padding:14px 16px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+    border-right:4px solid #7c3aed;
+  }
+  .paper-card .title {
+    font-size:15px;
+    font-weight:600;
+    color:#0f172a;
+    margin-bottom:6px;
+    line-height:1.5;
+  }
+  .paper-card .meta {
+    font-size:12px;
+    color:#64748b;
+    margin-bottom:8px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .paper-card .tldr {
+    font-size:13px;
+    color:#334155;
+    background:#f5f3ff;
+    border-radius:8px;
+    padding:8px 10px;
+    margin-bottom:8px;
+    line-height:1.7;
+  }
+  .paper-card .abstract {
+    font-size:13px;
+    color:#475569;
+    line-height:1.7;
+    margin-bottom:8px;
+    display:none;
+  }
+  .paper-card .abstract.show { display:block; }
+  .paper-card .actions {
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+  }
+  .paper-card .actions button, .paper-card .actions a {
+    font-size:12px;
+    padding:5px 12px;
+    border-radius:20px;
+    border:none;
+    cursor:pointer;
+    text-decoration:none;
+    font-weight:500;
+  }
+  .btn-abstract { background:#f1f5f9; color:#334155; }
+  .btn-abstract:hover { background:#e2e8f0; }
+  .btn-link { background:#ede9fe; color:#6d28d9; }
+  .btn-link:hover { background:#ddd6fe; }
+  .btn-pdf { background:#dcfce7; color:#166534; }
+  .btn-pdf:hover { background:#bbf7d0; }
+
+  .no-results {
+    text-align:center;
+    color:#94a3b8;
+    padding:24px;
+    background:#f8fafc;
+    border-radius:12px;
+    border:1px dashed #e2e8f0;
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <h1>📚 پژوهشیار</h1>
+    <p>جست‌وجوی میلیون‌ها مقاله‌ی علمی (Semantic Scholar)</p>
+    <div class="nav-links">
+      <a href="https://amir-khan-nine.vercel.app/">📰 خبرخوان</a>
+      <a href="https://amir-khan-ai-1uf7.vercel.app/">🤖 چت با هوش مصنوعی</a>
+      <a href="https://amirkhan-newsroom.vercel.app/">🎙️ اتاق خبرنگار</a>
+    </div>
+  </div>
+
+  <div class="search-card">
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="موضوع یا عنوان مقاله را بنویس (انگلیسی بهتر جواب می‌دهد)...">
+      <button id="searchBtn">🔍 جست‌وجو</button>
+    </div>
+    <div class="hint">چون پایگاه داده‌ی مقالات بیشتر انگلیسی است، جست‌وجو با کلمات انگلیسی نتیجه‌ی بهتری می‌دهد.</div>
+  </div>
+
+  <div class="status" id="statusBox">⏳ در حال جست‌وجو...</div>
+  <div class="results" id="results"></div>
+</div>
+
+<script>
+const searchInput = document.getElementById('searchInput');
+const searchBtn = document.getElementById('searchBtn');
+const statusBox = document.getElementById('statusBox');
+const resultsBox = document.getElementById('results');
+
+async function searchPapers() {
+  const query = searchInput.value.trim();
+  if (!query) return;
+
+  searchBtn.disabled = true;
+  statusBox.classList.add('show');
+  resultsBox.innerHTML = '';
+
+  try {
+    const fields = 'title,abstract,year,authors,venue,citationCount,tldr,openAccessPdf,url';
+    const apiUrl = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(query)}&limit=10&fields=${fields}`;
+
+    const res = await fetch(apiUrl);
+
+    if (!res.ok) {
+      throw new Error('پاسخ نامعتبر از سرور (کد ' + res.status + ')');
+    }
+
+    const data = await res.json();
+    const papers = data.data || [];
+
+    statusBox.classList.remove('show');
+
+    if (papers.length === 0) {
+      resultsBox.innerHTML = '<div class="no-results">📭 نتیجه‌ای پیدا نشد. کلمات دیگری امتحان کن.</div>';
+      searchBtn.disabled = false;
+      return;
+    }
+
+    resultsBox.innerHTML = papers.map((p, i) => {
+      const authors = (p.authors || []).slice(0, 3).map(a => a.name).join('، ') + ((p.authors || []).length > 3 ? ' و دیگران' : '');
+      const tldr = p.tldr && p.tldr.text ? `<div class="tldr">💡 ${p.tldr.text}</div>` : '';
+      const abstract = p.abstract ? `<div class="abstract" id="abs-${i}">${p.abstract}</div>` : '';
+      const pdfBtn = p.openAccessPdf && p.openAccessPdf.url
+        ? `<a href="${p.openAccessPdf.url}" target="_blank" class="btn-pdf">📄 PDF رایگان</a>` : '';
+
+      return `
+        <div class="paper-card">
+          <div class="title">${p.title || 'بدون عنوان'}</div>
+          <div class="meta">
+            <span>📅 ${p.year || 'نامشخص'}</span>
+            <span>📖 ${p.venue || '—'}</span>
+            <span>🔗 ${p.citationCount ?? 0} استناد</span>
+          </div>
+          ${authors ? `<div class="meta">👤 ${authors}</div>` : ''}
+          ${tldr}
+          ${abstract}
+          <div class="actions">
+            ${p.abstract ? `<button class="btn-abstract" onclick="document.getElementById('abs-${i}').classList.toggle('show')">📝 چکیده</button>` : ''}
+            ${p.url ? `<a href="${p.url}" target="_blank" class="btn-link">🔗 مشاهده در منبع</a>` : ''}
+            ${pdfBtn}
+          </div>
+        </div>
+      `;
+    }).join('');
+
+  } catch (err) {
+    statusBox.classList.remove('show');
+    resultsBox.innerHTML = '<div class="no-results">⚠️ خطا در جست‌وجو: ' + err.message + '</div>';
+    console.error(err);
+  }
+
+  searchBtn.disabled = false;
+}
+
+searchBtn.addEventListener('click', searchPapers);
+searchInput.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') searchPapers();
+});
+</script>
+
+</body>
+</html>
